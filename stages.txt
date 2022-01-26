@@ -1,0 +1,42 @@
+Initial:
+gcc -Wall tiny.c
+./a.out; echo $?
+wc -c a.out
+
+Strip executable:
+gcc -Wall -s tiny.c
+./a.out; echo $?
+wc -c a.out
+
+Optimise:
+gcc -Wall -s -O3 tiny.c
+./a.out; echo $?
+wc -c a.out
+
+Assembly:
+nasm -f elf64 tiny_1.asm
+gcc -Wall -s -O3 tiny_1.o
+./a.out; echo $?
+wc -c a.out
+
+No gcc stdlib entry or exit:
+nasm -f elf64 tiny_2.asm
+gcc -Wall -s -O3 -nostdlib tiny_2.o
+./a.out; echo $?
+wc -c a.out
+
+Call linker over gcc + optimise writing to bl:
+nasm -f elf64 tiny_3.asm
+ld -s tiny_3.o
+./a.out; echo $?
+wc -c a.out
+
+Show sections of the executable - only machine code:
+objdump -x a.out | less
+
+<note: ELF doc @ /usr/include/linux/elf64.h, https://www.uclibc.org/docs/elf-64-gen.pdf>
+
+Write ELF from scratch:
+nasm -f bin tiny_4.asm
+./tiny_4; echo $?
+wc -c tiny_4

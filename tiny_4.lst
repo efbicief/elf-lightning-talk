@@ -1,0 +1,43 @@
+     1                                  BITS 64
+     2                                  
+     3                                              org     0x08048000
+     4                                  
+     5                                  ehdr:                                                 ; Elf64_Ehdr
+     6 00000000 7F454C4602010102                    db      0x7F, "ELF", 2, 1, 1, 2         ;   e_ident
+     7 00000008 00<rept>                    times 7 db      0
+     8 0000000F 10                                  db      0x10                            ;   e_nindent
+     9 00000010 0200                                dw      2                               ;   e_type
+    10 00000012 3E00                                dw      62                               ;   e_machine
+    11 00000014 01000000                            dd      1                               ;   e_version
+    12 00000018 [7800000000000000]                  dq      _start                          ;   e_entry
+    13 00000020 4000000000000000                    dq      phdr - $$                       ;   e_phoff
+    14 00000028 0000000000000000                    dq      0                               ;   e_shoff
+    15 00000030 00000000                            dd      0                               ;   e_flags
+    16 00000034 4000                                dw      ehdrsize                        ;   e_ehsize
+    17 00000036 3800                                dw      phdrsize                        ;   e_phentsize
+    18 00000038 0100                                dw      1                               ;   e_phnum
+    19 0000003A 0000                                dw      0                               ;   e_shentsize
+    20 0000003C 0000                                dw      0                               ;   e_shnum
+    21 0000003E 0000                                dw      0                               ;   e_shstrndx
+    22                                  
+    23                                  ehdrsize      equ     $ - ehdr
+    24                                  
+    25                                  phdr:                                                 ; Elf64_Phdr
+    26 00000040 01000000                            dd      1                               ;   p_type
+    27 00000044 05000000                            dd      5                               ;   p_flags
+    28 00000048 0000000000000000                    dq      0                               ;   p_offset
+    29 00000050 [0000000000000000]                  dq      $$                              ;   p_vaddr
+    30 00000058 [0000000000000000]                  dq      $$                              ;   p_paddr
+    31 00000060 8000000000000000                    dq      filesize                        ;   p_filesz
+    32 00000068 8000000000000000                    dq      filesize                        ;   p_memsz
+    33 00000070 0010000000000000                    dq      0x1000                          ;   p_align
+    34                                  
+    35                                  phdrsize      equ     $ - phdr
+    36                                  
+    37                                  _start:
+    38 00000078 31C0                            xor     eax, eax
+    39 0000007A FFC0                            inc     eax
+    40 0000007C B302                            mov     bl, 2
+    41 0000007E CD80                            int     0x80
+    42                                  
+    43                                  filesize      equ     $ - $$

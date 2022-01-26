@@ -1,0 +1,7 @@
+     1                                  ; tiny.asm
+     2                                  GLOBAL _start ; object symbol used by linker to find entry point
+     3                                  _start:
+     4 00000000 6631C0                          xor     eax, eax
+     5 00000003 6640                            inc     eax    ; increment rather than add 1 to it
+     6 00000005 B302                            mov     bl, 2  ; write to 8-bit bl register instead of 32-bit ebx register
+     7 00000007 CD80                            int     0x80   ; linux system call interface - takes call from eax, parameter from ebx
