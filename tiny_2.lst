@@ -1,6 +1,0 @@
-     1                                  ; tiny.asm
-     2                                  GLOBAL _start ; object symbol used by linker to find entry point
-     3                                  _start:
-     4 00000000 66B801000000                    mov     eax, 1 ; exit system call ID, see /usr/include/unistd.h
-     5 00000006 66BB02000000                    mov     ebx, 2 ; ebx stores argument - value to return to the parent process
-     6 0000000C CD80                            int     0x80   ; linux system call interface - takes call from eax, parameter from ebx
