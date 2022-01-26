@@ -3,11 +3,6 @@ gcc -Wall tiny.c
 ./a.out; echo $?
 wc -c a.out
 
-Strip executable:
-gcc -Wall -s tiny.c
-./a.out; echo $?
-wc -c a.out
-
 Optimise:
 gcc -Wall -s -O3 tiny.c
 ./a.out; echo $?
